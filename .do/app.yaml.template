@@ -1,0 +1,50 @@
+name: jobbot
+services:
+  - name: bot
+    dockerfile_path: Dockerfile
+    source_dir: /
+    github:
+      repo: kchemorion/jobbot
+      branch: main
+      deploy_on_push: true
+    envs:
+      - key: TELEGRAM_TOKEN
+        scope: RUN_TIME
+        type: SECRET
+      - key: ANTHROPIC_API_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: STRIPE_SECRET_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: STRIPE_PUBLISHABLE_KEY
+        scope: RUN_TIME
+        type: SECRET
+      - key: DO_ACCESS_TOKEN
+        scope: RUN_TIME
+        type: SECRET
+      - key: DO_SPACE_NAME
+        value: jobbot-storage
+      - key: DO_REGION
+        value: fra1
+      - key: DO_ENDPOINT
+        value: fra1.digitaloceanspaces.com
+      - key: DATABASE_URL
+        scope: RUN_TIME
+        value: ${db.DATABASE_URL}
+      - key: EMAIL_DOMAIN
+        value: jobbot.work
+      - key: EMAIL_CATCH_ALL
+        scope: RUN_TIME
+        type: SECRET
+    instance_count: 1
+    instance_size_slug: basic-xxs
+
+databases:
+  - name: db
+    engine: PG
+    version: "15"
+    production: true
+    cluster_name: jobbot-db
+    db_name: ${db.DATABASE_NAME}
+    db_user: ${db.USERNAME}

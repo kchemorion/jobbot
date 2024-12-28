@@ -25,8 +25,17 @@ venv/
 env/
 ENV/
 
-# Environment Variables
+# Environment Variables and Sensitive Files
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.crt
+.do/app.yaml
+.s3cfg
+*.secret
+secrets/
 
 # IDE
 .idea/
@@ -36,6 +45,7 @@ ENV/
 
 # Logs
 *.log
+logs/
 
 # Docker
 .docker/
@@ -47,3 +57,9 @@ ENV/
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
