@@ -3,6 +3,9 @@
 # Exit on error
 set -e
 
+# Load environment variables
+source .env
+
 # Check if doctl is installed
 if ! command -v doctl &> /dev/null; then
     echo "doctl is not installed. Installing..."
@@ -11,9 +14,12 @@ if ! command -v doctl &> /dev/null; then
     sudo mv doctl /usr/local/bin
 fi
 
+# Create .do directory if it doesn't exist
+mkdir -p .do
+
 # Authenticate with DigitalOcean
 echo "Authenticating with DigitalOcean..."
-doctl auth init --access-token $DO_ACCESS_TOKEN
+doctl auth init -t "${DO_ACCESS_TOKEN}"
 
 # Create app if it doesn't exist
 echo "Creating/Updating DigitalOcean App..."
